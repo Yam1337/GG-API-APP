@@ -10,6 +10,7 @@ import moment from "moment";
 import "../../App.css";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import Loader from "react-loader-spinner";
+import { Tooltip } from "antd";
 
 export const ShowingBar = ({
   selectedId,
@@ -17,18 +18,11 @@ export const ShowingBar = ({
   selectedConversation,
   setSelectedConversation,
 }) => {
-  const [avatarSource, setAvatarSource] = useState("");
   const [loadingState, setLoadingState] = useState(false);
+  const [censoredState, setCensoredState] = useState(true);
   useEffect(() => {
     fetchApi(selectedId.id);
   }, [selectedId.id]);
-
-  function checkImage(imageSrc, good, bad) {
-    var img = new Image();
-    img.onload = good;
-    img.onerror = bad;
-    img.src = imageSrc;
-  }
 
   const fetchApi = async (selectedId) => {
     try {
@@ -43,12 +37,6 @@ export const ShowingBar = ({
     }
   };
 
-  function imgError(image) {
-    image.onerror = "";
-    image.src =
-      "https://www.seekpng.com/png/full/110-1100707_person-avatar-placeholder.png";
-    return true;
-  }
   return (
     <ShowingBarWrapper>
       {loadingState ? (
@@ -107,14 +95,81 @@ export const ShowingBar = ({
                     <div style={{ fontWeight: "bold" }}>
                       {conversation.author}
                     </div>
-                    <div className="tooltip" style={{ cursor: "pointer" }}>
-                      {conversation.message}
-                      {console.log(conversation)}
-                      <span className="tooltiptext">
-                        {conversation.messageValidated
-                          ? conversation.messageValidated
-                          : "Brak walidacji :("}
-                      </span>
+                    <div>
+                      <Tooltip
+                        placement="bottom"
+                        title={
+                          conversation.messageValidated.substr(
+                            conversation.messageValidated.length - 3
+                          ) === "jpg" ||
+                          conversation.messageValidated.substr(
+                            conversation.messageValidated.length - 3
+                          ) === "JPG" ||
+                          conversation.messageValidated.substr(
+                            conversation.messageValidated.length - 3
+                          ) === "png" ||
+                          conversation.messageValidated.substr(
+                            conversation.messageValidated.length - 3
+                          ) === "png" ||
+                          conversation.messageValidated.substr(
+                            conversation.messageValidated.length - 4
+                          ) === "jpeg" ||
+                          conversation.messageValidated.substr(
+                            conversation.messageValidated.length - 4
+                          ) === "JPEG" ? (
+                            <div
+                              style={
+                                censoredState
+                                  ? { filter: "blur(15px)" }
+                                  : { filter: "blur(0px)" }
+                              }
+                            >
+                              <img
+                                src={conversation.message.replace(
+                                  "https://www.gg.pl/dysk/",
+                                  "https://p.gg.pl/thumb/p/d/"
+                                )}
+                                onClick={() => setCensoredState(false)}
+                                height="100%"
+                                width="100%"
+                                alt={`${conversation.author}`}
+                              />
+                            </div>
+                          ) : (
+                            conversation.messageValidated
+                          )
+                        }
+                      >
+                        <div
+                          style={{ cursor: "pointer" }}
+                          onMouseEnter={() => {
+                            if (
+                              conversation.messageValidated.substr(
+                                conversation.messageValidated.length - 3
+                              ) === "jpg" ||
+                              conversation.messageValidated.substr(
+                                conversation.messageValidated.length - 3
+                              ) === "JPG" ||
+                              conversation.messageValidated.substr(
+                                conversation.messageValidated.length - 3
+                              ) === "png" ||
+                              conversation.messageValidated.substr(
+                                conversation.messageValidated.length - 3
+                              ) === "png" ||
+                              conversation.messageValidated.substr(
+                                conversation.messageValidated.length - 4
+                              ) === "jpeg" ||
+                              conversation.messageValidated.substr(
+                                conversation.messageValidated.length - 4
+                              ) === "JPEG"
+                            ) {
+                              setCensoredState(true);
+                            }
+                          }}
+                        >
+                          {conversation.message}
+                        </div>
+                      </Tooltip>
                     </div>
                   </MessageContentWrapper>
                 </MessageWrapper>

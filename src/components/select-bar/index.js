@@ -9,6 +9,7 @@ export const SelectBar = ({
   setSelectedId,
   selectedConversation,
   setSelectedConversation,
+  sortingState,
 }) => {
   const [conversationsList, setConversationsList] = useState([]);
   const [loadingState, setLoadingState] = useState(false);
@@ -18,11 +19,19 @@ export const SelectBar = ({
       const fetchedData = await axios.get(
         "https://gg-api-app.herokuapp.com/conversations"
       );
-      setConversationsList(
-        fetchedData.data.sort(function (a, b) {
-          return new Date(b.date) - new Date(a.date);
-        })
-      );
+      if (sortingState === "date") {
+        console.log(sortingState);
+        setConversationsList(
+          fetchedData.data.sort(function (a, b) {
+            return new Date(b.date) - new Date(a.date);
+          })
+        );
+      }
+      if (sortingState === "number") {
+        console.log(sortingState);
+        setConversationsList(fetchedData.data.sort((a, b) => b.__v - a.__v));
+      }
+
       setLoadingState(false);
     } catch (err) {
       console.log(err);
@@ -30,7 +39,7 @@ export const SelectBar = ({
   };
   useEffect(() => {
     fetchApi();
-  }, []);
+  }, [sortingState]);
 
   return (
     <SelectBarWrapper>
@@ -65,6 +74,8 @@ export const SelectBar = ({
                   personTwo: item.personTwo,
                 });
               }}
+              cardColor={item._id === selectedId.id ? "#1360e8" : "#ecb800"}
+              borderColor={item._id === selectedId.id ? "red" : "#ecb800"}
             >
               <div className="tooltip">
                 <span
@@ -77,12 +88,12 @@ export const SelectBar = ({
                   }}
                 >
                   <img
-                    src={`https://avatars.gg.pl/user,${item.personOne}/s,500x500`}
-                    alt={`${item.personOne}'s avatar`}
+                    src={`https://avatars.gg.pl/user,${item.personTwo}/s,500x500`}
+                    alt={`${item.personTwo}'s avatar`}
                   />
                 </span>
                 <img
-                  src={`https://avatars.gg.pl/user,${item.personOne}/s,100x100`}
+                  src={`http://avatars.gadu-gadu.pl/${item.personTwo}?default=http://avatars.gg.pl/default,100`}
                   alt="User avatar"
                   onError={(e) => {
                     e.target.onerror = null;
@@ -101,6 +112,7 @@ export const SelectBar = ({
                 <div>{`Rozmowa ${item.personOne} z ${item.personTwo}`}</div>
                 <div>{`Wymienili ${item.__v} wiadomości`}</div>
               </div>
+
               <div className="tooltip">
                 <span
                   className="tooltiptext"
@@ -112,12 +124,12 @@ export const SelectBar = ({
                   }}
                 >
                   <img
-                    src={`https://avatars.gg.pl/user,${item.personTwo}/s,500x500`}
-                    alt={`${item.personTwo}'s avatar`}
+                    src={`https://avatars.gg.pl/user,${item.personOne}/s,500x500`}
+                    alt={`${item.personOne}'s avatar`}
                   />
                 </span>
                 <img
-                  src={`http://avatars.gadu-gadu.pl/${item.personTwo}?default=http://avatars.gg.pl/default,100`}
+                  src={`https://avatars.gg.pl/user,${item.personOne}/s,100x100`}
                   alt="User avatar"
                   onError={(e) => {
                     e.target.onerror = null;

@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const ShowingBarWrapper = styled.div`
   width: 65vw;
-  height: 100vh;
+  height: calc(100vh - 50px);
   overflow-x: hidden;
   overflow-y: auto;
   background-color: #f0f0f0;

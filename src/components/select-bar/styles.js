@@ -9,10 +9,11 @@ export const SelectBarWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   width: 35vw;
-  height: 100vh;
-  background-color: #fbd109;
+  height: calc(100vh - 50px);
+  background-color: #ad8f00;
   overflow: auto;
   direction: rtl;
+  border-top: solid 1px black;
 `;
 
 export const ConversationCardWrapper = styled.div`
@@ -31,8 +32,8 @@ export const ConversationCardWrapper = styled.div`
   align-content: center;
   align-items: center;
   height: 100px;
-  border: 1px solid #6886ba;
-  background-color: #ecb800;
+  border: 1px solid ${(props) => props.borderColor};
+  background-color: ${(props) => props.cardColor};
   box-shadow: -5px 5px 25px black;
   border-radius: 5px;
   margin: 7px;
