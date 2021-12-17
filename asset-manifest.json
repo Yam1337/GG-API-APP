@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/GG-API-APP/static/css/main.fbfa66db.css",
-    "main.js": "/GG-API-APP/static/js/main.98b731a5.js",
+    "main.css": "/GG-API-APP/static/css/main.76a857c1.css",
+    "main.js": "/GG-API-APP/static/js/main.a04fabaf.js",
     "static/js/787.36d315bd.chunk.js": "/GG-API-APP/static/js/787.36d315bd.chunk.js",
     "index.html": "/GG-API-APP/index.html",
-    "main.fbfa66db.css.map": "/GG-API-APP/static/css/main.fbfa66db.css.map",
-    "main.98b731a5.js.map": "/GG-API-APP/static/js/main.98b731a5.js.map",
+    "main.76a857c1.css.map": "/GG-API-APP/static/css/main.76a857c1.css.map",
+    "main.a04fabaf.js.map": "/GG-API-APP/static/js/main.a04fabaf.js.map",
     "787.36d315bd.chunk.js.map": "/GG-API-APP/static/js/787.36d315bd.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.fbfa66db.css",
-    "static/js/main.98b731a5.js"
+    "static/css/main.76a857c1.css",
+    "static/js/main.a04fabaf.js"
   ]
 }
