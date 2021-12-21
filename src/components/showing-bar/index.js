@@ -17,16 +17,17 @@ export const ShowingBar = ({
   setSelectedId,
   selectedConversation,
   setSelectedConversation,
+  fetchApiToggler,
 }) => {
-  const [loadingState, setLoadingState] = useState(false);
+  const [loadingState, setLoadingState] = useState(true);
   const [censoredState, setCensoredState] = useState(true);
   useEffect(() => {
     fetchApi(selectedId.id);
-  }, [selectedId.id]);
+  }, [selectedId.id, fetchApiToggler]);
 
   const fetchApi = async (selectedId) => {
     try {
-      setLoadingState(true);
+      // setLoadingState(true);
       const fetchedData = await axios.get(
         `https://gg-api-app.herokuapp.com/conversations/${selectedId}`
       );
@@ -97,6 +98,7 @@ export const ShowingBar = ({
                     </div>
                     <div>
                       <Tooltip
+                        overlayStyle={{ whiteSpace: "pre-line" }}
                         placement="bottom"
                         title={
                           conversation.messageValidated.substr(
@@ -136,7 +138,12 @@ export const ShowingBar = ({
                               />
                             </div>
                           ) : (
-                            conversation.messageValidated
+                            <>{`OLD: ${conversation.messageValidated}
+                          NEW: ${
+                            conversation.messageValidatedNew
+                              ? conversation.messageValidatedNew
+                              : "Brak nowej walidacji"
+                          }`}</>
                           )
                         }
                       >

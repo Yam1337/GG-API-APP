@@ -10,17 +10,17 @@ export const SelectBar = ({
   selectedConversation,
   setSelectedConversation,
   sortingState,
+  fetchApiToggler,
 }) => {
   const [conversationsList, setConversationsList] = useState([]);
-  const [loadingState, setLoadingState] = useState(false);
+  const [loadingState, setLoadingState] = useState(true);
   const fetchApi = async () => {
-    setLoadingState(true);
+    // setLoadingState(true);
     try {
       const fetchedData = await axios.get(
         "https://gg-api-app.herokuapp.com/conversations"
       );
       if (sortingState === "date") {
-        console.log(sortingState);
         setConversationsList(
           fetchedData.data.sort(function (a, b) {
             return new Date(b.date) - new Date(a.date);
@@ -39,7 +39,7 @@ export const SelectBar = ({
   };
   useEffect(() => {
     fetchApi();
-  }, [sortingState]);
+  }, [sortingState, fetchApiToggler]);
 
   return (
     <SelectBarWrapper>

@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Select } from "antd";
 
 import { SelectBar } from "../../components/select-bar";
 import { ShowingBar } from "../../components/showing-bar";
 import { MainPageWrapper, HeaderWrapper } from "./styles";
+import socketIOClient from "socket.io-client";
 
 export const MainPage = () => {
   const [selectedConversation, setSelectedConversation] = useState([]);
@@ -13,6 +14,7 @@ export const MainPage = () => {
     personTwo: 0,
   });
   const [sortingState, setSortingState] = useState("date");
+  const [fetchApiToggler, setFetchApiToggler] = useState(false);
 
   const { Option } = Select;
 
@@ -20,6 +22,14 @@ export const MainPage = () => {
     console.log(e);
     setSortingState(e);
   };
+
+  useEffect(() => {
+    const socket = socketIOClient("http://gg-api-app.herokuapp.com:5000");
+    socket.on("FromAPI", (data) => {
+      setFetchApiToggler((prev) => !prev);
+    });
+    return () => socket.disconnect();
+  }, []);
 
   return (
     <>
@@ -66,12 +76,14 @@ export const MainPage = () => {
             selectedId={selectedId}
             setSelectedId={setSelectedId}
             sortingState={sortingState}
+            fetchApiToggler={fetchApiToggler}
           />
           <ShowingBar
             selectedConversation={selectedConversation}
             setSelectedConversation={setSelectedConversation}
             selectedId={selectedId}
             setSelectedId={setSelectedId}
+            fetchApiToggler={fetchApiToggler}
           />
         </div>
       </MainPageWrapper>
