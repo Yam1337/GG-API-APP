@@ -24,7 +24,7 @@ export const MainPage = () => {
   };
 
   useEffect(() => {
-    const socket = socketIOClient("http://gg-api-app.herokuapp.com");
+    const socket = socketIOClient("https://gg-api-app.herokuapp.com");
     socket.on("FromAPI", (data) => {
       setFetchApiToggler((prev) => !prev);
     });
