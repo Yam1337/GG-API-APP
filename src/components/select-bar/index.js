@@ -1,5 +1,9 @@
 import { useState, useEffect } from "react";
-import { SelectBarWrapper, ConversationCardWrapper } from "./styles";
+import {
+  SelectBarWrapper,
+  ConversationCardWrapper,
+  PersonDetails,
+} from "./styles";
 import axios from "axios";
 import Loader from "react-loader-spinner";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
@@ -11,9 +15,12 @@ export const SelectBar = ({
   setSelectedConversation,
   sortingState,
   fetchApiToggler,
+  loadingSelectState,
+  setLoadingSelectState,
+  loadingShowingState,
+  setLoadingShowingState,
 }) => {
   const [conversationsList, setConversationsList] = useState([]);
-  const [loadingState, setLoadingState] = useState(true);
   const fetchApi = async () => {
     // setLoadingState(true);
     try {
@@ -32,7 +39,7 @@ export const SelectBar = ({
         setConversationsList(fetchedData.data.sort((a, b) => b.__v - a.__v));
       }
 
-      setLoadingState(false);
+      setLoadingSelectState(false);
     } catch (err) {
       console.log(err);
     }
@@ -44,7 +51,7 @@ export const SelectBar = ({
 
   return (
     <SelectBarWrapper>
-      {loadingState ? (
+      {loadingSelectState ? (
         <div
           style={{
             width: "100%",
@@ -60,7 +67,7 @@ export const SelectBar = ({
             color="#00BFFF"
             height={100}
             width={100}
-            timeout={3000} //3 secs
+            timeout={10000} //3 secs
           />
         </div>
       ) : (
@@ -69,10 +76,13 @@ export const SelectBar = ({
             <ConversationCardWrapper
               key={item._id}
               onClick={() => {
+                setLoadingShowingState(true);
                 setSelectedId({
                   id: item._id,
                   personOne: item.personOne,
                   personTwo: item.personTwo,
+                  personOneDetails: item.personOneDetails,
+                  personTwoDetails: item.personTwoDetails,
                 });
               }}
               cardColor={item._id === selectedId.id ? "#1360e8" : "#ecb800"}
@@ -102,6 +112,30 @@ export const SelectBar = ({
                       "https://www.pathwaysvermont.org/wp-content/uploads/2017/03/avatar-placeholder-e1490629554738.png";
                   }}
                 />
+                {/* <div style={{ display: "flex", flexDirection: "column" }}>
+                  <div>
+                    {item.personTwoDetails[0] !== undefined &&
+                    item.personTwoDetails[0].substring(5) !== "niepodano"
+                      ? `${item.personTwoDetails[0].substring(5)}`
+                      : ""}
+                    {item.personTwoDetails[3] !== undefined &&
+                    item.personTwoDetails[3].substring(5) !== "niepodano"
+                      ? `${
+                          item.personTwoDetails[3].substring(5) === "kobieta"
+                            ? " K"
+                            : " M"
+                        }`
+                      : ""}{" "}
+                    {item.personTwoDetails[2] !== undefined &&
+                    item.personTwoDetails[2].substring(13) !== "niepodano"
+                      ? `${
+                          " " +
+                          2021 -
+                          Number(item.personTwoDetails[2].substring(13))
+                        }`
+                      : ""}
+                  </div>
+                </div> */}
               </div>
               <div
                 style={{
@@ -110,7 +144,21 @@ export const SelectBar = ({
                   alignItems: "center",
                 }}
               >
-                <div>{`Rozmowa ${item.personOne} z ${item.personTwo}`}</div>
+                <div>{`Rozmowa ${
+                  item.personOneDetails[0] &&
+                  item.personOneDetails[0] !== "nick:niepodano"
+                    ? `${item.personOneDetails[0].substring(5)} (${
+                        item.personOne
+                      })`
+                    : item.personOne
+                } z ${
+                  item.personTwoDetails[0] &&
+                  item.personTwoDetails[0] !== "nick:niepodano"
+                    ? `${item.personTwoDetails[0].substring(5)} (${
+                        item.personTwo
+                      })`
+                    : item.personTwo
+                }`}</div>
                 <div>{`Wymienili ${item.__v} wiadomości`}</div>
               </div>
 

@@ -12,9 +12,13 @@ export const MainPage = () => {
     id: "",
     personOne: 0,
     personTwo: 0,
+    personOneDetails: [],
+    personTwoDetails: [],
   });
   const [sortingState, setSortingState] = useState("date");
   const [fetchApiToggler, setFetchApiToggler] = useState(false);
+  const [loadingSelectState, setLoadingSelectState] = useState(true);
+  const [loadingShowingState, setLoadingShowingState] = useState(false);
 
   const { Option } = Select;
 
@@ -77,6 +81,10 @@ export const MainPage = () => {
             setSelectedId={setSelectedId}
             sortingState={sortingState}
             fetchApiToggler={fetchApiToggler}
+            loadingSelectState={loadingSelectState}
+            setLoadingSelectState={setLoadingSelectState}
+            loadingShowingState={loadingShowingState}
+            setLoadingShowingState={setLoadingShowingState}
           />
           <ShowingBar
             selectedConversation={selectedConversation}
@@ -84,6 +92,10 @@ export const MainPage = () => {
             selectedId={selectedId}
             setSelectedId={setSelectedId}
             fetchApiToggler={fetchApiToggler}
+            loadingSelectState={loadingSelectState}
+            setLoadingSelectState={setLoadingSelectState}
+            loadingShowingState={loadingShowingState}
+            setLoadingShowingState={setLoadingShowingState}
           />
         </div>
       </MainPageWrapper>

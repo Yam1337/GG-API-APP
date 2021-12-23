@@ -31,7 +31,7 @@ export const ConversationCardWrapper = styled.div`
   justify-content: space-between;
   align-content: center;
   align-items: center;
-  height: 100px;
+  height: 150px;
   border: 1px solid ${(props) => props.borderColor};
   background-color: ${(props) => props.cardColor};
   box-shadow: -5px 5px 25px black;

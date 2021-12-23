@@ -20,8 +20,11 @@ export const ShowingBar = ({
   selectedConversation,
   setSelectedConversation,
   fetchApiToggler,
+  loadingSelectState,
+  setLoadingSelectState,
+  loadingShowingState,
+  setLoadingShowingState,
 }) => {
-  const [loadingState, setLoadingState] = useState(true);
   const [censoredState, setCensoredState] = useState(true);
   const [sendMessageDetails, setSendMessageDetails] = useState({
     to: null,
@@ -43,8 +46,8 @@ export const ShowingBar = ({
       const fetchedData = await axios.get(
         `https://gg-api-app.herokuapp.com/conversations/${selectedId}`
       );
-      setSelectedConversation(fetchedData.data);
-      setLoadingState(false);
+      await setSelectedConversation(fetchedData.data);
+      setLoadingShowingState(false);
     } catch (err) {
       console.log(err);
     }
@@ -66,7 +69,7 @@ export const ShowingBar = ({
   return (
     <ShowingBarContentWrapper>
       <ShowingBarWrapper>
-        {loadingState ? (
+        {loadingShowingState ? (
           <div
             style={{
               width: "100%",
@@ -82,7 +85,7 @@ export const ShowingBar = ({
               color="#00BFFF"
               height={100}
               width={100}
-              timeout={3000} //3 secs
+              timeout={10000} //3 secs
             />
           </div>
         ) : (
@@ -119,8 +122,41 @@ export const ShowingBar = ({
                           .local()
                           .format("YYYY-MM-DD HH:mm:ss")}
                       </div>
-                      <div style={{ fontWeight: "bold" }}>
-                        {conversation.author}
+                      <div
+                        style={{
+                          fontWeight: "bold",
+                          display: "flex",
+                          alignItems: "center",
+                        }}
+                      >
+                        <img
+                          src={`http://status.gadu-gadu.pl/users/status.asp?id=${conversation.author}&styl=0`}
+                          height={"18px"}
+                          alt={`${conversation.author} status`}
+                        />
+                        <div style={{ marginLeft: "5px" }}>
+                          {selectedConversation.personOneDetails !==
+                            undefined &&
+                          selectedConversation.personOneDetails.length !== 0 &&
+                          selectedConversation.personOneDetails[0] !==
+                            "nick:niepodano" &&
+                          conversation.author === selectedConversation.personOne
+                            ? `${selectedConversation.personOneDetails[0].substring(
+                                5
+                              )} (${conversation.author})`
+                            : selectedConversation.personTwoDetails !==
+                                undefined &&
+                              selectedConversation.personTwoDetails[0] !==
+                                "nick:niepodano" &&
+                              selectedConversation.personTwoDetails.length !==
+                                0 &&
+                              conversation.author ===
+                                selectedConversation.personTwo
+                            ? `${selectedConversation.personTwoDetails[0].substring(
+                                5
+                              )} (${conversation.author})`
+                            : conversation.author}
+                        </div>
                       </div>
                       <div>
                         <Tooltip
@@ -234,12 +270,12 @@ export const ShowingBar = ({
               disabled={selectedConversation.personOne ? false : true}
               value={sendMessageDetails.to}
             >
-              <Option
-                value={selectedConversation.personOne}
-              >{`Do: ${selectedConversation.personOne}`}</Option>
-              <Option
-                value={selectedConversation.personTwo}
-              >{`Do: ${selectedConversation.personTwo}`}</Option>
+              <Option value={selectedConversation.personOne}>
+                {selectedConversation.personOne}
+              </Option>
+              <Option value={selectedConversation.personTwo}>
+                {selectedConversation.personTwo}
+              </Option>
             </Select>
             <Input
               placeholder="Wpisz swoją wiadomość..."
