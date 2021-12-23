@@ -11,7 +11,7 @@ export const HeaderWrapper = styled.div`
   justify-content: center;
   align-content: center;
   height: 50px;
-  background-color: #ad8f00;
+  background-color: #ecb800;
   &div {
     background-color: red;
   }

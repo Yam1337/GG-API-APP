@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const ShowingBarWrapper = styled.div`
   width: 65vw;
-  height: calc(100vh - 50px);
+  height: calc(90vh - 50px);
   overflow-x: hidden;
   overflow-y: auto;
   background-color: #f0f0f0;
@@ -28,4 +28,26 @@ export const MessageContentWrapper = styled.div`
   padding: 10px 10px 10px 10px;
   background-color: #d2d2d2;
   box-shadow: -0px 0px 20px black;
+`;
+
+export const ShowingBarContentWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+export const SendMessageBarWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  background-color: #ecb800;
+  height: 10vh;
+  width: 100%;
+  border: 1px solid black;
+  .message-bar {
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+  }
 `;

@@ -37,6 +37,7 @@ export const SelectBar = ({
       console.log(err);
     }
   };
+
   useEffect(() => {
     fetchApi();
   }, [sortingState, fetchApiToggler]);
