@@ -271,10 +271,10 @@ export const ShowingBar = ({
               value={sendMessageDetails.to}
             >
               <Option value={selectedConversation.personOne}>
-                {selectedConversation.personOne}
+                {`Do: ${selectedConversation.personOne}`}
               </Option>
               <Option value={selectedConversation.personTwo}>
-                {selectedConversation.personTwo}
+                {`Do: ${selectedConversation.personTwo}`}
               </Option>
             </Select>
             <Input
