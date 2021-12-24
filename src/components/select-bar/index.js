@@ -24,6 +24,7 @@ export const SelectBar = ({
 }) => {
   const [conversationsList, setConversationsList] = useState([]);
   const [numberOfDbResults, setNumberOfDbResults] = useState(0);
+  const [actualPage, setActualPage] = useState(0);
   const fetchApi = async (page, limit, sort_by, increasing) => {
     // setLoadingState(true);
     try {
@@ -52,7 +53,7 @@ export const SelectBar = ({
   };
 
   useEffect(() => {
-    fetchApi(0, 10, "date", false);
+    fetchApi(actualPage, 10, "date", false);
   }, [sortingState, fetchApiToggler]);
 
   return (
@@ -205,6 +206,7 @@ export const SelectBar = ({
           total={numberOfDbResults}
           onChange={(e) => {
             setLoadingSelectState(true);
+            setActualPage(e - 1);
             fetchApi(e - 1, 10, "date", false);
           }}
           showSizeChanger={false}
