@@ -40,7 +40,7 @@ export const MainPage = () => {
       <MainPageWrapper>
         <HeaderWrapper>
           <>
-            <div
+            {/* <div
               style={{
                 height: "100%",
                 display: "flex",
@@ -70,7 +70,7 @@ export const MainPage = () => {
                 <Option value="date">dacie ostatniej wiadomości</Option>
                 <Option value="number">liczbie wiadomości</Option>
               </Select>
-            </div>
+            </div> */}
           </>
         </HeaderWrapper>
         <div style={{ display: "flex" }}>

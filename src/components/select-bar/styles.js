@@ -9,7 +9,7 @@ export const SelectBarWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   width: 35vw;
-  height: calc(100vh - 50px);
+  height: calc(100vh - 100px);
   background-color: #ad8f00;
   overflow: auto;
   direction: rtl;
@@ -31,11 +31,22 @@ export const ConversationCardWrapper = styled.div`
   justify-content: space-between;
   align-content: center;
   align-items: center;
-  height: 150px;
+  max-height: 150px;
   border: 1px solid ${(props) => props.borderColor};
   background-color: ${(props) => props.cardColor};
   box-shadow: -5px 5px 25px black;
   border-radius: 5px;
   margin: 7px;
   padding: 5px;
+`;
+
+export const PaginationWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  width: 100%;
+  height: 50px;
+  background-color: #ecb800;
+  border-top: 1px solid black;
 `;

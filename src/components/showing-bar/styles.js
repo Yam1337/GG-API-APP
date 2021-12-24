@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const ShowingBarWrapper = styled.div`
   width: 65vw;
-  height: calc(90vh - 50px);
+  height: calc(100vh - 100px);
   overflow-x: hidden;
   overflow-y: auto;
   background-color: #f0f0f0;
@@ -40,9 +40,9 @@ export const SendMessageBarWrapper = styled.div`
   justify-content: center;
   align-content: center;
   background-color: #ecb800;
-  height: 10vh;
-  width: 100%;
-  border: 1px solid black;
+  height: 50px;
+  width: 65vw;
+  border-top: 1px solid black;
   .message-bar {
     display: flex;
     align-content: center;
