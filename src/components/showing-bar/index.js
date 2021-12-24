@@ -292,7 +292,10 @@ export const ShowingBar = ({
               onClick={() => {
                 sendMessage();
               }}
-              disabled={sendMessageDetails.to === "Wybierz numer"}
+              disabled={
+                sendMessageDetails.to === "Wybierz numer" ||
+                sendMessageDetails.content.length === 0
+              }
             >
               Wyślij
             </Button>
