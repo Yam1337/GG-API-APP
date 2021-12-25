@@ -152,7 +152,7 @@ export const SelectBar = ({
                     alignItems: "center",
                   }}
                 >
-                  <div>{`Rozmowa ${
+                  <div style={{ textAlign: "center" }}>{`Rozmowa ${
                     item.personOneDetails[0] &&
                     item.personOneDetails[0] !== "nick:niepodano"
                       ? `${item.personOneDetails[0].substring(5)} (${
