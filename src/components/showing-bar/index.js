@@ -200,12 +200,7 @@ export const ShowingBar = ({
                                 />
                               </div>
                             ) : (
-                              <>{`OLD: ${conversation.messageValidated}
-                          NEW: ${
-                            conversation.messageValidatedNew
-                              ? conversation.messageValidatedNew
-                              : "Brak nowej walidacji"
-                          }`}</>
+                              <>{conversation.messageValidated}</>
                             )
                           }
                         >
