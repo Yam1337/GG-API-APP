@@ -6,13 +6,13 @@ import {
   SendMessageBarWrapper,
   ShowingBarContentWrapper,
 } from "./styles";
-import axios from "axios";
 import { useState, useEffect } from "react";
 import moment from "moment";
 import "../../App.css";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import Loader from "react-loader-spinner";
 import { Tooltip, Select, Input, Button } from "antd";
+import conversations from '../../conversations.json'
 
 export const ShowingBar = ({
   selectedId,
@@ -26,44 +26,20 @@ export const ShowingBar = ({
   setLoadingShowingState,
 }) => {
   const [censoredState, setCensoredState] = useState(true);
-  const [sendMessageDetails, setSendMessageDetails] = useState({
-    to: null,
-    content: "",
-  });
   useEffect(() => {
-    fetchApi(selectedId.id);
+    fetchApi(selectedId);
   }, [selectedId.id, fetchApiToggler]);
-  useEffect(() => {
-    setSendMessageDetails({
-      to: "Wybierz numer",
-      content: "",
-    });
-  }, [selectedId.id]);
 
   const fetchApi = async (selectedId) => {
     try {
-      // setLoadingState(true);
-      const fetchedData = await axios.get(
-        `https://gg-api-app.herokuapp.com/conversations/${selectedId}`
-      );
-      await setSelectedConversation(fetchedData.data);
-      setLoadingShowingState(false);
+      if(conversations && selectedId?.id?.$oid.length) {
+        const fetchedData = conversations.find((item) => item?._id?.$oid === selectedId?.id?.$oid)
+        await setSelectedConversation(fetchedData);
+        setLoadingShowingState(false);
+      }
     } catch (err) {
       console.log(err);
     }
-  };
-
-  const { Option } = Select;
-
-  const sendMessage = () => {
-    axios.post(
-      `https://gg-api-app.herokuapp.com/send/${sendMessageDetails.to}`,
-      sendMessageDetails.content
-    );
-    setSendMessageDetails({
-      ...sendMessageDetails,
-      content: "",
-    });
   };
 
   return (
@@ -254,46 +230,6 @@ export const ShowingBar = ({
               width: "90%",
             }}
           >
-            <Select
-              onChange={(e) => {
-                setSendMessageDetails({
-                  ...sendMessageDetails,
-                  to: e,
-                });
-              }}
-              style={{ width: "150px" }}
-              disabled={selectedConversation.personOne ? false : true}
-              value={sendMessageDetails.to}
-            >
-              <Option value={selectedConversation.personOne}>
-                {`Do: ${selectedConversation.personOne}`}
-              </Option>
-              <Option value={selectedConversation.personTwo}>
-                {`Do: ${selectedConversation.personTwo}`}
-              </Option>
-            </Select>
-            <Input
-              placeholder="Wpisz swoją wiadomość..."
-              value={sendMessageDetails.content}
-              onChange={(e) => {
-                setSendMessageDetails({
-                  ...sendMessageDetails,
-                  content: e.target.value,
-                });
-              }}
-            />
-            <Button
-              type="primary"
-              onClick={() => {
-                sendMessage();
-              }}
-              disabled={
-                sendMessageDetails.to === "Wybierz numer" ||
-                sendMessageDetails.content.length === 0
-              }
-            >
-              Wyślij
-            </Button>
           </Input.Group>
         </div>
       </SendMessageBarWrapper>

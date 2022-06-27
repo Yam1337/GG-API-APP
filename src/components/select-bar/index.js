@@ -9,6 +9,7 @@ import axios from "axios";
 import Loader from "react-loader-spinner";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import { Pagination } from "antd";
+import conversations from '../../conversations.json'
 
 export const SelectBar = ({
   selectedId,
@@ -26,23 +27,20 @@ export const SelectBar = ({
   const [numberOfDbResults, setNumberOfDbResults] = useState(0);
   const [actualPage, setActualPage] = useState(0);
   const fetchApi = async (page, limit, sort_by, increasing) => {
-    // setLoadingState(true);
     try {
-      const fetchedData = await axios.get(
-        `https://gg-api-app.herokuapp.com/conversations?page=${page}&limit=${limit}&sort_by=${sort_by}&increasing=${increasing}`
-      );
-      setNumberOfDbResults(fetchedData.data.count);
+      const fetchedData = conversations
+      console.log(fetchedData.slice(actualPage * 10, (actualPage + 1) * 10))
+      setNumberOfDbResults(fetchedData.length);
       if (sortingState === "date") {
         setConversationsList(
-          fetchedData.data.conversations.sort(function (a, b) {
+          fetchedData.sort(function (a, b) {
             return new Date(b.date) - new Date(a.date);
-          })
+          }).slice(actualPage * 10, (actualPage + 1) * 10)
         );
       }
       if (sortingState === "number") {
-        console.log(sortingState);
         setConversationsList(
-          fetchedData.data.conversations.sort((a, b) => b.__v - a.__v)
+          fetchedData.sort((a, b) => b.__v - a.__v).slice(actualPage * 10, (actualPage + 1) * 10)
         );
       }
 
@@ -54,7 +52,7 @@ export const SelectBar = ({
 
   useEffect(() => {
     fetchApi(actualPage, 10, "date", false);
-  }, [sortingState, fetchApiToggler]);
+  }, [sortingState, fetchApiToggler, fetchApi, actualPage]);
 
   return (
     <div>
@@ -120,30 +118,6 @@ export const SelectBar = ({
                         "https://www.pathwaysvermont.org/wp-content/uploads/2017/03/avatar-placeholder-e1490629554738.png";
                     }}
                   />
-                  {/* <div style={{ display: "flex", flexDirection: "column" }}>
-                  <div>
-                    {item.personTwoDetails[0] !== undefined &&
-                    item.personTwoDetails[0].substring(5) !== "niepodano"
-                      ? `${item.personTwoDetails[0].substring(5)}`
-                      : ""}
-                    {item.personTwoDetails[3] !== undefined &&
-                    item.personTwoDetails[3].substring(5) !== "niepodano"
-                      ? `${
-                          item.personTwoDetails[3].substring(5) === "kobieta"
-                            ? " K"
-                            : " M"
-                        }`
-                      : ""}{" "}
-                    {item.personTwoDetails[2] !== undefined &&
-                    item.personTwoDetails[2].substring(13) !== "niepodano"
-                      ? `${
-                          " " +
-                          2021 -
-                          Number(item.personTwoDetails[2].substring(13))
-                        }`
-                      : ""}
-                  </div>
-                </div> */}
                 </div>
                 <div
                   style={{
