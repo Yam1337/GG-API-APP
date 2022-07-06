@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Select } from "antd";
+import { Select, Switch } from "antd";
 
 import { SelectBar } from "../../components/select-bar";
 import { ShowingBar } from "../../components/showing-bar";
@@ -19,6 +19,7 @@ export const MainPage = () => {
   const [fetchApiToggler, setFetchApiToggler] = useState(false);
   const [loadingSelectState, setLoadingSelectState] = useState(true);
   const [loadingShowingState, setLoadingShowingState] = useState(false);
+  const [validationSwitch, setValidationSwitch] = useState(true)
 
   const { Option } = Select;
 
@@ -39,6 +40,8 @@ export const MainPage = () => {
     <>
       <MainPageWrapper>
         <HeaderWrapper>
+        Pokaz przerobioną wersję wiadomości (To co widzą widzi osoba która dostaje wiadomość)
+          <div><Switch checked={validationSwitch} onChange={() => setValidationSwitch((prev) => !prev)} /></div>
           <>
             {/* <div
               style={{
@@ -96,6 +99,7 @@ export const MainPage = () => {
             setLoadingSelectState={setLoadingSelectState}
             loadingShowingState={loadingShowingState}
             setLoadingShowingState={setLoadingShowingState}
+            validationSwitch={validationSwitch}
           />
         </div>
       </MainPageWrapper>

@@ -24,6 +24,7 @@ export const ShowingBar = ({
   setLoadingSelectState,
   loadingShowingState,
   setLoadingShowingState,
+  validationSwitch,
 }) => {
   const [censoredState, setCensoredState] = useState(true);
   const [sendMessageDetails, setSendMessageDetails] = useState({
@@ -200,7 +201,7 @@ export const ShowingBar = ({
                                 />
                               </div>
                             ) : (
-                              <>{conversation.messageValidated}</>
+                              <>{!validationSwitch ? conversation.messageValidated : conversation.message}</>
                             )
                           }
                         >
@@ -231,7 +232,7 @@ export const ShowingBar = ({
                               }
                             }}
                           >
-                            {conversation.message}
+                            {validationSwitch ? conversation.messageValidated : conversation.message}
                           </div>
                         </Tooltip>
                       </div>
